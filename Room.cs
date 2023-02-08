@@ -36,6 +36,15 @@ public class Room
         if (playerList.Count == 0) ownerServer.RemoveRoom(this.id);
         return res;
     }
+    public void DisposeRoom()
+    {
+        foreach (var i in playerList)
+        {
+            i.currentRoom = null;
+        }
+        playerList.Clear();
+        ownerServer.RemoveRoom(this.id);
+    }
     public bool TryStartGame()
     {
         foreach (var i in playerList)
@@ -63,7 +72,7 @@ public class Room
             host.SendDataUDP(msg);
         }
     }
-    public void BroadcastTCPMsg(string msg, Player broadcaster)
+    public void BroadcastTCPMsgViaHost(string msg, Player broadcaster)
     {
         if (broadcaster == _host)
         {
@@ -78,6 +87,14 @@ public class Room
             host.SendDataTCP(msg);
         }
     }
+    public void BroadcastTCPMsg(string msg, Player broadcaster)
+    {
+        foreach (var i in playerList)
+        {
+            if (i == broadcaster) continue;
+            i.SendDataTCP(msg);
+        }
+    }
     private void StartGame()
     {
         Console.WriteLine("game start" + playerList.Count);
@@ -85,6 +102,15 @@ public class Room
         {
             i.BeginReceiveUDPMsg();
         }
+    }
+    public string GetPlayerNames()
+    {
+        string nameString = "";
+        foreach (var i in this.playerList)
+        {
+            nameString += $"{i.name}{(i.isReady ? 1 : 0)} ";
+        }
+        return nameString.Trim();
     }
 
 }

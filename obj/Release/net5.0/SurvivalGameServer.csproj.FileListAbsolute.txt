@@ -1,0 +1,16 @@
+D:\MyProjects\.Net\SurvivalGameServer\bin\Release\net5.0\SurvivalGameServer.exe
+D:\MyProjects\.Net\SurvivalGameServer\bin\Release\net5.0\SurvivalGameServer.deps.json
+D:\MyProjects\.Net\SurvivalGameServer\bin\Release\net5.0\SurvivalGameServer.runtimeconfig.json
+D:\MyProjects\.Net\SurvivalGameServer\bin\Release\net5.0\SurvivalGameServer.runtimeconfig.dev.json
+D:\MyProjects\.Net\SurvivalGameServer\bin\Release\net5.0\SurvivalGameServer.dll
+D:\MyProjects\.Net\SurvivalGameServer\bin\Release\net5.0\SurvivalGameServer.pdb
+D:\MyProjects\.Net\SurvivalGameServer\obj\Release\net5.0\SurvivalGameServer.csproj.AssemblyReference.cache
+D:\MyProjects\.Net\SurvivalGameServer\obj\Release\net5.0\SurvivalGameServer.GeneratedMSBuildEditorConfig.editorconfig
+D:\MyProjects\.Net\SurvivalGameServer\obj\Release\net5.0\SurvivalGameServer.AssemblyInfoInputs.cache
+D:\MyProjects\.Net\SurvivalGameServer\obj\Release\net5.0\SurvivalGameServer.AssemblyInfo.cs
+D:\MyProjects\.Net\SurvivalGameServer\obj\Release\net5.0\SurvivalGameServer.csproj.CoreCompileInputs.cache
+D:\MyProjects\.Net\SurvivalGameServer\obj\Release\net5.0\SurvivalGameServer.dll
+D:\MyProjects\.Net\SurvivalGameServer\obj\Release\net5.0\refint\SurvivalGameServer.dll
+D:\MyProjects\.Net\SurvivalGameServer\obj\Release\net5.0\SurvivalGameServer.pdb
+D:\MyProjects\.Net\SurvivalGameServer\obj\Release\net5.0\SurvivalGameServer.genruntimeconfig.cache
+D:\MyProjects\.Net\SurvivalGameServer\obj\Release\net5.0\ref\SurvivalGameServer.dll

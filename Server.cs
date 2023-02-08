@@ -16,6 +16,7 @@ public class Server
     {
         this.server = new TcpListener(IPAddress.Any, port);
         server.Start();
+        Console.WriteLine("ver 1.0");
         Console.WriteLine($"Server started on port: {port}");
         server.BeginAcceptTcpClient(TcpAcceptClientCallback, null);
     }
