@@ -61,15 +61,8 @@ public class Player
             string msg = Encoding.ASCII.GetString(data);
             Console.WriteLine($"Incoming udp msg from {name}: " + msg);
 
-            //Console.WriteLine($"Incoming UDP message from {remoteEP}: {msg}");
-            if (msg == "con")
-            {
-                udp.Connect(remoteEP);
-            }
-            else
-            {
-                this.currentRoom.BroadcastUDPMsg(msg, this);
-            }
+            remoteUDPEndpoint = remoteEP;
+            this.currentRoom.BroadcastUDPMsg(msg, this);
             udp.BeginReceive(UdpReadCallback, null);
         }
         catch (Exception e)
@@ -141,7 +134,7 @@ public class Player
         var encodedMsg = Encoding.ASCII.GetBytes(msg);
         try
         {
-            udp.BeginSend(encodedMsg, encodedMsg.Length, null, null);
+            udp.BeginSend(encodedMsg, encodedMsg.Length, remoteUDPEndpoint, null, null);
         }
         catch (Exception e)
         {
@@ -261,7 +254,8 @@ public class Player
         }
         else if (cmd == "con")
         {
-            this.udp.Connect(remoteHost, int.Parse(split[1].Trim('~')));
+            //this.udp.Connect(remoteHost, int.Parse(split[1].Trim('~')));
+            
         }
         else if (cmd.Length <= 2 && Char.IsDigit(cmd[0]))
         {
