@@ -60,7 +60,6 @@ public class Player
             }
             string msg = Encoding.ASCII.GetString(data);
             Console.WriteLine($"Incoming udp msg from {name}: " + msg);
-
             remoteUDPEndpoint = remoteEP;
             this.currentRoom.BroadcastUDPMsg(msg, this);
             udp.BeginReceive(UdpReadCallback, null);
@@ -173,6 +172,7 @@ public class Player
     {
         this.id = _id;
     }
+    
     private void HandleTCPMessage(string msg)
     {
         msg = msg.Trim();
@@ -187,10 +187,11 @@ public class Player
         if (cmd == "cr")
         {
             Console.WriteLine("asdf " + this.name);
-            var room = this.server.AddRoom("12345");
+            var room = this.server.AddRoomWithRandomID();
             room.host = this;
             if (split.Length > 2) this.name = split[2].Trim('~');
             bool joinSuccess = JoinRoom(room);
+            currentRoom.mapSeed = Utilities.RandomSeed();
             if (joinSuccess)
             {
                 this.currentRoom.mapSeed = split[1].Trim('~');
@@ -244,7 +245,8 @@ public class Player
             if (currentRoom != null && currentRoom.host == this)
             {
                 isReady = true;
-                currentRoom.mapSeed = split[1];
+                var seedMsg = split[1].Trim('~');
+                currentRoom.mapSeed = seedMsg == "0"  ? Utilities.RandomSeed() : split[1];
                 var startGame = currentRoom.TryStartGame();
                 if (!startGame)
                 {
@@ -255,7 +257,7 @@ public class Player
         else if (cmd == "con")
         {
             //this.udp.Connect(remoteHost, int.Parse(split[1].Trim('~')));
-            
+            remoteUDPEndpoint = new IPEndPoint(IPAddress.Parse(remoteHost), int.Parse(split[1].Trim('~')));
         }
         else if (cmd.Length <= 2 && Char.IsDigit(cmd[0]))
         {

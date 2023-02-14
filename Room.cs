@@ -12,12 +12,14 @@ public class Room
     private Player _host;
     public Player host { get => _host; set => _host = value; }
     public string id;
+    public bool started;
     private Server ownerServer;
 
     public Room(string id, Server owner)
     {
         this.id = id;
         this.ownerServer = owner;
+        this.started = false;
     }
 
     public bool AddPlayer(Player newPlayer)
@@ -102,6 +104,7 @@ public class Room
         {
             i.BeginReceiveUDPMsg();
         }
+        this.started = true;
     }
     public string GetPlayerNames()
     {

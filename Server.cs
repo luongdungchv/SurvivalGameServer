@@ -8,9 +8,11 @@ public class Server
 {
     private Dictionary<string, Room> roomList;
     private TcpListener server;
+    private Random randomObj;
     public Server()
     {
         roomList = new Dictionary<string, Room>();
+        randomObj = new Random(DateTime.Now.Millisecond);
     }
     public void StartServer(int port)
     {
@@ -22,7 +24,7 @@ public class Server
     }
     public Room GetRoom(string id)
     {
-        if (roomList.ContainsKey(id)) return roomList[id];
+        if (roomList.ContainsKey(id) && !roomList[id].started) return roomList[id];
         return null;
     }
     public Room AddRoom(string id)
@@ -43,6 +45,15 @@ public class Server
         var newPlayer = new Player(this, client);
         newPlayer.BeginReceiveTCPMsg();
         server.BeginAcceptTcpClient(TcpAcceptClientCallback, null);
-
+    }
+    public Room AddRoomWithRandomID(){
+        if(roomList.Count >= 100000) return null;
+        var randomId = this.randomObj.Next(0, 99999).ToString();
+        while(roomList.ContainsKey(randomId)){
+            randomId = this.randomObj.Next(0, 99999).ToString();
+        }
+        var room = new Room(randomId, this);
+        roomList.Add(randomId, room);
+        return room;
     }
 }
