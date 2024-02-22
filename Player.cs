@@ -59,7 +59,7 @@ public class Player
                 return;
             }
             string msg = Encoding.ASCII.GetString(data);
-            Console.WriteLine($"Incoming udp msg from {name}: " + msg);
+            //Console.WriteLine($"Incoming udp msg from {name}: " + msg);
             remoteUDPEndpoint = remoteEP;
             this.currentRoom.BroadcastUDPMsg(msg, this);
             udp.BeginReceive(UdpReadCallback, null);
@@ -158,9 +158,9 @@ public class Player
         if (currentRoom != null && currentRoom.RemovePlayer(this))
         {
             Console.WriteLine($"{name} leaves room {currentRoom.id}");
-            currentRoom.BroadcastTCPMsg($"14 {id}~", this);
-            currentRoom.BroadcastTCPMsg($"9 leave {id}~", this);
-            this.SendDataTCP($"9 leave {id}");
+            currentRoom.BroadcastTCPMsg($"{(int)PacketType.PlayerDisconnect} {id}~", this);
+            currentRoom.BroadcastTCPMsg($"{(int)PacketType.RoomInteraction} leave {id}~", this);
+            this.SendDataTCP($"{(int)PacketType.RoomInteraction} leave {id}");
             if (this.id == 0)
             {
                 currentRoom.DisposeRoom();
@@ -188,6 +188,7 @@ public class Player
         {
             Console.WriteLine("asdf " + this.name);
             var room = this.server.AddRoomWithRandomID();
+            //var room = this.server.AddRoom("12345");
             room.host = this;
             if (split.Length > 2) this.name = split[2].Trim('~');
             bool joinSuccess = JoinRoom(room);
@@ -195,7 +196,7 @@ public class Player
             if (joinSuccess)
             {
                 this.currentRoom.mapSeed = split[1].Trim('~');
-                this.SendDataTCP($"9 create {currentRoom.id} {currentRoom.mapSeed} {name}");
+                this.SendDataTCP($"{(int)PacketType.RoomInteraction} create {currentRoom.id} {currentRoom.mapSeed} {name}");
             }
             Console.WriteLine($"New room created: {room.id}");
             
@@ -210,8 +211,8 @@ public class Player
                 if (joinSuccess)
                 {
                     Console.WriteLine(msg);
-                    this.currentRoom.BroadcastTCPMsg("9 room_add " + this.name, this);
-                    var joinMsg = $"9 join {this.currentRoom.id} {this.currentRoom.mapSeed} {this.currentRoom.GetPlayerNames()}";
+                    this.currentRoom.BroadcastTCPMsg($"{(int)PacketType.RoomInteraction} room_add " + this.name, this);
+                    var joinMsg = $"{(int)PacketType.RoomInteraction} join {this.currentRoom.id} {this.currentRoom.mapSeed} {this.currentRoom.GetPlayerNames()}";
                     //Console.WriteLine(joinMsg);
                     this.SendDataTCP(joinMsg);
                 }
@@ -226,8 +227,8 @@ public class Player
             if (currentRoom != null && currentRoom.host != this)
             {
                 isReady = !isReady;
-                this.currentRoom.BroadcastTCPMsg($"9 ready {id} {(isReady ? 1 : 0)}~", this);
-                this.SendDataTCP($"9 ready {id} {(isReady ? 1 : 0)}~");
+                this.currentRoom.BroadcastTCPMsg($"{(int)PacketType.RoomInteraction} ready {id} {(isReady ? 1 : 0)}~", this);
+                this.SendDataTCP($"{(int)PacketType.RoomInteraction} ready {id} {(isReady ? 1 : 0)}~");
             }
         }
         else if (cmd == "urd")

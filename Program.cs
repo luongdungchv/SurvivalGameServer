@@ -9,11 +9,6 @@ namespace SurvivalGameServer
         {
             Server server = new Server();
             server.StartServer(1234);
-            Console.WriteLine((int)PacketType.StartGame);
-            
-            for(int i = 0; i < 5; i++){
-                Console.WriteLine(Utilities.RandomSeed());
-            }
             
             Console.Read();
         }
@@ -21,5 +16,10 @@ namespace SurvivalGameServer
 }
 public enum PacketType
 {
-    MovePlayer, SpawnPlayer, StartGame
+    MovePlayer,
+    SpawnPlayer, StartGame, Input, SpawnObject, UpdateEquipping,
+    FurnaceServerUpdate, FurnaceClientMsg,
+    ItemDrop, RoomInteraction,
+    SpawnEnemy, UpdateEnemy,PowerupInteraction,
+    ChestInteraction, ItemDropObjInteraction, OreInteraction, DestroyObject, PlayerDisconnect, PlayerInteraction,
 }
